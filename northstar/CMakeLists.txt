@@ -23,6 +23,24 @@ if(NOT DEFINED OPENVR_INCLUDE_DIR
    OR NOT DEFINED GLEW_INCLUDE_DIR
    OR NOT DEFINED EIGEN_INCLUDE_DIR
    OR NOT DEFINED TROMPELOEIL_INCLUDE_DIR)
+#    OR NOT DEFINED ORBSLAM3_INCLUDE_DIR
+#    OR NOT DEFINED ORBSLAM3_LIB_DIR
+#    OR NOT DEFINED OPENCV_INCLUDE_DIR
+#    OR NOT DEFINED OPENCV_LIB_DIR
+#    OR NOT DEFINED OPENCV_IMPLEMENTATION_DIR
+#    OR NOT DEFINED DBOW2_LIB_DIR
+#    OR NOT DEFINED PANGOLIN_INCLUDE_DIR
+#    OR NOT DEFINED PANGOLIN_LIB_DIR
+#    OR NOT DEFINED BOOST_INCLUDE_DIR
+#    OR NOT DEFINED BOOST_LIB_DIR
+#    OR NOT DEFINED G2O_LIB_DIR
+#    OR NOT DEFINED OPENSSL_LIB_DIR
+#    OR NOT DEFINED OPENSSL_INCLUDE_DIR
+#    OR NOT DEFINED OPENSSL_IMPLEMENTATION_DIR
+#    OR NOT DEFINED Thirdparty_ROOT
+#    OR NOT DEFINED SOPHUS_INCLUDE_DIR
+#    OR NOT DEFINED GLU32_LIB
+#    OR NOT DEFINED OPENGL32_LIB)
     message(FATAL_ERROR "Please generate the project file using the CMakeLists file included in the root directory.")
 endif()
 
@@ -35,6 +53,42 @@ add_library(northstar SHARED ${SOURCES};${HEADERS})
 target_compile_features(northstar PRIVATE cxx_std_17)
 target_compile_definitions(northstar PUBLIC -D_EXPORT)
 target_include_directories(northstar PRIVATE include/)
+
+# target_include_directories(northstar PRIVATE ${Thirdparty_ROOT})
+
+# target_include_directories(northstar PRIVATE ${ORBSLAM3_INCLUDE_DIR})
+# target_include_directories(northstar PRIVATE ${ORBSLAM3_INCLUDE_DIR}/CameraModels)
+# target_link_libraries(northstar ${ORBSLAM3_LIB_DIR}/ORB_SLAM3.lib)
+
+# target_include_directories(northstar PRIVATE ${OPENCV_INCLUDE_DIR})
+# target_include_directories(northstar PRIVATE ${OPENCV_INCLUDE_DIR}/opencv)
+# target_include_directories(northstar PRIVATE ${OPENCV_INCLUDE_DIR}/opencv2)
+# target_link_libraries(northstar ${OPENCV_LIB_DIR}/opencv_world3415.lib)
+
+# target_link_libraries(northstar ${DBOW2_LIB_DIR}/DBoW2.lib)
+# target_link_libraries(northstar ${G2O_LIB_DIR}/g2o.lib)
+
+# target_include_directories(northstar PRIVATE ${PANGOLIN_INCLUDE_DIR}/include)
+# target_include_directories(northstar PRIVATE ${PANGOLIN_INCLUDE_DIR}/build/src/include)
+# target_include_directories(northstar PRIVATE ${PANGOLIN_INCLUDE_DIR}/build/external/glew/include)
+# target_link_libraries(northstar ${PANGOLIN_LIB_DIR}/lib/Release/pangolin.lib)
+# target_link_libraries(northstar ${PANGOLIN_LIB_DIR}/build/external/glew/lib/glew.lib)
+# target_link_libraries(northstar ${PANGOLIN_LIB_DIR}/build/external/libpng/lib/libpng16_static.lib)
+# target_link_libraries(northstar ${PANGOLIN_LIB_DIR}/build/external/zlib/lib/zlibstatic.lib)
+# target_link_libraries(northstar ${PANGOLIN_LIB_DIR}/build/external/libjpeg/lib/jpeg.lib)
+
+# target_include_directories(northstar PRIVATE ${SOPHUS_INCLUDE_DIR})
+
+# target_include_directories(northstar PRIVATE ${BOOST_INCLUDE_DIR})
+# target_link_libraries(northstar ${BOOST_LIB_DIR}/lib64-msvc-14.1/libboost_serialization-vc141-mt-s-x64-1_67.lib)
+
+# target_include_directories(northstar PRIVATE ${OPENSSL_INCLUDE_DIR})
+# target_link_libraries(northstar ${OPENSSL_LIB_DIR}/VC/libcrypto64MT.lib)
+# target_link_libraries(northstar ${OPENSSL_LIB_DIR}/VC/libssl64MT.lib)
+
+# target_link_libraries(northstar ${GLU32_LIB})
+# target_link_libraries(northstar ${OPENGL32_LIB})
+
 target_include_directories(northstar PRIVATE ${OPENVR_INCLUDE_DIR})
 target_link_libraries(northstar ${OPENVR_LIB_DIR}/openvr_api.lib)
 target_include_directories(northstar PRIVATE ${STRUCTURE_INCLUDE_DIR})

@@ -88,18 +88,49 @@ void northstar::driver::CRealSenseSensor::PollingUpdateLoop()
     try {
         rs2::pipeline rsPipeLine;
         rs2::config rsConfig;
-        rsConfig.enable_stream(RS2_STREAM_POSE, RS2_FORMAT_6DOF);
+        rsConfig.enable_stream(RS2_STREAM_FISHEYE, 1, RS2_FORMAT_Y8);
+        rsConfig.enable_stream(RS2_STREAM_FISHEYE, 2, RS2_FORMAT_Y8);
         rsPipeLine.start(rsConfig);
+
+        std::string vocabulary_file_dir = "D:/HEY/XR/HeyAR_LLAPI/Vocabulary/ORBvoc.bin";
+        std::string setting_file_dir = "D:/HEY/XR/HeyAR_LLAPI/RealSense_T265.yaml";
+        ORB_SLAM3::System SLAM(vocabulary_file_dir,setting_file_dir,ORB_SLAM3::System::STEREO, false);
+
+        cv::Mat im_left, im_right;
+        int width_img = 848, height_img = 800;
 
         while (!m_bPollingShouldStop)
         {
             auto sFrameSet = rsPipeLine.wait_for_frames();
-            auto sFrame = sFrameSet.first_or_default(RS2_STREAM_POSE).as<rs2::pose_frame>();
-            m_LastPoseRecieved = sFrame.get_pose_data();
-            m_LastPoseRecievedTimeStamp = sFrame.get_timestamp();
+            auto sFrame = sFrameSet.first_or_default(RS2_STREAM_FISHEYE);
+            rs2::video_frame image_frame_left = sFrameSet.get_fisheye_frame(1);
+            rs2::video_frame image_frame_right = sFrameSet.get_fisheye_frame(2);
+            m_LastPoseRecievedTimeStamp = sFrameSet.get_timestamp();
+            im_left = cv::Mat(cv::Size(width_img, height_img), CV_8UC1, (void*)(image_frame_left.get_data()), cv::Mat::AUTO_STEP);
+            im_right = cv::Mat(cv::Size(width_img, height_img), CV_8UC1, (void*)(image_frame_right.get_data()), cv::Mat::AUTO_STEP);
+
+            const Sophus::SE3f Tcw = SLAM.TrackStereo(im_left, im_right, m_LastPoseRecievedTimeStamp);
+
+            Sophus::SE3f Twc = Tcw.inverse();
+            Eigen::Vector3f twc = Twc.translation();
+            Eigen::Quaternionf quaternion = Twc.unit_quaternion();
+
+            rs2_pose rsPose;
+            rsPose.translation.x = twc(0);
+            rsPose.translation.y = -twc(1);
+            rsPose.translation.z = -twc(2);
+            rsPose.rotation.x = quaternion.x();
+            rsPose.rotation.y = -quaternion.y();
+            rsPose.rotation.z = -quaternion.z();
+            rsPose.rotation.w = quaternion.w();
+
+            m_LastPoseRecieved = rsPose;
             m_Status.bDriverSessionIsRunning = true;
             // std::this_thread::sleep_for(std::chrono::milliseconds(s_unPollingSleepIntervalInMilliSeconds));
         }
+
+        rsPipeLine.stop();
+        SLAM.Shutdown();
     } catch (const rs2::error&) {
         m_Status.bDriverSessionIsRunning = false;
     } catch (const std::exception&) {
