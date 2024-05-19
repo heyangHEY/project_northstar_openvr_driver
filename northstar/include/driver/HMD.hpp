@@ -28,10 +28,14 @@ namespace northstar {
                 std::shared_ptr<northstar::driver::ISensorFrameCoordinator> pSensorFrameCoordinator,
                 std::shared_ptr<northstar::utility::ILogger> pLogger);
 
+            // 继承自 vr::ITrackedDeviceServerDriver，见openvr_driver.h
             virtual vr::EVRInitError Activate(vr::TrackedDeviceIndex_t unObjectId) override final;
             virtual void Deactivate() override final;
             virtual void EnterStandby() override final;
             virtual void* GetComponent(const char* pchComponentNameAndVersion) override final;
+            virtual void DebugRequest(const char* pchRequest, char* pchResponseBuffer, uint32_t unResponseBufferSize) override final;
+
+            // 继承自 vr::IVRDisplayComponent，见openvr_driver.h
             virtual bool IsDisplayOnDesktop() override final;
             virtual bool IsDisplayRealDisplay() override final;
             virtual vr::DriverPose_t GetPose() override final;
@@ -40,15 +44,16 @@ namespace northstar {
             virtual void GetEyeOutputViewport(vr::EVREye eEye, uint32_t* pnX, uint32_t* pnY, uint32_t* pnWidth, uint32_t* pnHeight) override final;
             virtual void GetProjectionRaw(vr::EVREye eEye, float* pfLeft, float* pfRight, float* pfTop, float* pfBottom) override final;
             virtual vr::DistortionCoordinates_t ComputeDistortion(vr::EVREye eEye, float fU, float fV) override final;
-            virtual void DebugRequest(const char* pchRequest, char* pchResponseBuffer, uint32_t unResponseBufferSize) override final;
 
             void RunFrame();
             const std::string_view& GetSerialNumber() const;
+            vr::HmdMatrix34_t LoadEyeToHeadTransformFromSettings(vr::EVREye eEye); // hey
 
         private:
             static constexpr int32_t x_iFallbackWindowOriginX = 0;
             static constexpr float x_fUserHeadToEyeDepthInMeters = 0.0f; // TODO: validate this
-            static constexpr bool x_bDirectModeEnabled = false;
+            // static constexpr bool x_bDirectModeEnabled = false; // hey
+
             static constexpr bool x_bIsDisplayOnDesktop = true;
             static constexpr bool x_bIsDisplayRealDisplay = true;
             static constexpr std::string_view x_svSerialNumber = "1024";
@@ -69,6 +74,8 @@ namespace northstar {
                 bool bUseFakeWarp;
                 bool bUseFakeTracking;
                 double dIPD;
+                vr::HmdMatrix34_t mEyeToHeadLeft; // hey
+                vr::HmdMatrix34_t mEyeToHeadRight; // hey
             };
 
             struct SOpenVRState {
@@ -82,6 +89,8 @@ namespace northstar {
 
             SConfiguration m_sConfiguration;
             SOpenVRState m_sOpenVRState;
+            bool m_bDirectModeEnabled; // hey
+            bool m_bFlag; // hey
 
             std::shared_ptr<IEnvironmentSensor> m_pEnvironmentSensor;
             std::shared_ptr<northstar::math::IVectorFactory> m_pVectorFactory;

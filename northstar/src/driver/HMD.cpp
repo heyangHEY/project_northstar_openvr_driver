@@ -25,6 +25,7 @@ northstar::driver::CHMD::CHMD(
     m_pSensorFrameCoordinator = pSensorFrameCoordinator;
     m_sOpenVRState.unObjectId = vr::k_unTrackedDeviceIndexInvalid;
     m_sOpenVRState.ulPropertyContainer = vr::k_ulInvalidPropertyContainer;
+    m_bFlag = false; // hey
 
     LoadConfiguration();
 }
@@ -38,6 +39,7 @@ void northstar::driver::CHMD::LoadConfiguration() {
     m_sConfiguration.dIPD = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svIPD.data());
     m_sConfiguration.sDisplayConfiguration.dFrequency = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svFrequency.data());
     m_sConfiguration.sDisplayConfiguration.dPhotonLatency = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svPhotonLatency.data());
+    m_bDirectModeEnabled = m_pVRSettings->GetBool(configuration::k_svRoot.data(), configuration::k_svEnableDirectMode.data()); // hey
     if (m_sConfiguration.bUseFakeScreenConfig) {
         //TODO: Put these in constants
         m_sConfiguration.sDisplayConfiguration.v2iWindowOrigin << 100, 100;
@@ -63,6 +65,9 @@ void northstar::driver::CHMD::LoadConfiguration() {
         }
     }
 
+    m_sConfiguration.mEyeToHeadLeft = LoadEyeToHeadTransformFromSettings(vr::Eye_Left); // hey
+    m_sConfiguration.mEyeToHeadRight = LoadEyeToHeadTransformFromSettings(vr::Eye_Right); // hey
+
     SetOpenVRConfiguration();
 }
 
@@ -85,7 +90,8 @@ void northstar::driver::CHMD::SetOpenVRProperties() {
     m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_ModelNumber_String, x_svModelNumber.data() );
     m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_RenderModelName_String, x_svModelNumber.data() );
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_UserIpdMeters_Float, static_cast<float>(m_sConfiguration.dIPD));
-    m_pVRProperties->SetBoolProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_HasDriverDirectModeComponent_Bool, x_bDirectModeEnabled);
+    // m_pVRProperties->SetBoolProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_HasDriverDirectModeComponent_Bool, x_bDirectModeEnabled); // hey
+    m_pVRProperties->SetBoolProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_HasDriverDirectModeComponent_Bool, m_bDirectModeEnabled); // hey
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_DisplayFrequency_Float, static_cast<float>(m_sConfiguration.sDisplayConfiguration.dFrequency));
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_SecondsFromVsyncToPhotons_Float, static_cast<float>(m_sConfiguration.sDisplayConfiguration.dPhotonLatency));
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_UserHeadToEyeDepthMeters_Float, static_cast<float>(x_fUserHeadToEyeDepthInMeters));
@@ -187,6 +193,16 @@ void northstar::driver::CHMD::GetProjectionRaw(vr::EVREye eEye, float* pfLeft, f
         return;
     }
 
+    // "cameraProjection_x": -0.299042533,
+    // "cameraProjection_y": 0.304215378,
+    // "cameraProjection_w": -0.2455669,
+    // "cameraProjection_z": 0.08854639,
+
+    // "cameraProjection_x": -0.261943438,
+    // "cameraProjection_y": 0.352588622,
+    // "cameraProjection_w": -0.240336522,
+    // "cameraProjection_z": 0.0948431145,
+
     auto v4dEyeProjectionLRTB = m_pOptics->GetEyeProjectionLRTB(eEye);
     *pfLeft = static_cast<float>(v4dEyeProjectionLRTB.x());
     *pfRight = static_cast<float>(v4dEyeProjectionLRTB.y());
@@ -223,10 +239,40 @@ void northstar::driver::CHMD::DebugRequest(const char* pchRequest, char* pchResp
 
 // TODO: this should go in a thread
 void northstar::driver::CHMD::RunFrame() {
-    if (m_sOpenVRState.unObjectId != vr::k_unTrackedDeviceIndexInvalid)
+    if (m_sOpenVRState.unObjectId != vr::k_unTrackedDeviceIndexInvalid) {
         m_pVRServerDriverHost->TrackedDevicePoseUpdated(m_sOpenVRState.unObjectId, GetPose(), sizeof(vr::DriverPose_t));
+
+        // hey
+        if (!m_bFlag) {
+            m_bFlag = true;
+            m_pVRServerDriverHost->SetDisplayEyeToHead(
+                m_sOpenVRState.unObjectId, 
+                m_sConfiguration.mEyeToHeadLeft, 
+                m_sConfiguration.mEyeToHeadRight);
+        }
+    }
 }
 
 const std::string_view& northstar::driver::CHMD::GetSerialNumber() const {
     return x_svSerialNumber;
+}
+
+// hey
+vr::HmdMatrix34_t northstar::driver::CHMD::LoadEyeToHeadTransformFromSettings( vr::EVREye eEye ) {
+    auto sEyeKey = eEye == vr::Eye_Left ? eye::k_svRootLeft : eye::k_svRootRight;
+    vr::HmdMatrix34_t hmd = { 0 };
+    hmd.m[0][0] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_00.data() );
+    hmd.m[0][1] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_01.data() );
+    hmd.m[0][2] = -m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_02.data() );
+    hmd.m[0][3] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_03.data() );
+    hmd.m[1][0] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_04.data() );
+    hmd.m[1][1] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_05.data() );
+    hmd.m[1][2] = -m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_06.data() );
+    hmd.m[1][3] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_07.data() );
+    hmd.m[2][0] = -m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_08.data() );
+    hmd.m[2][1] = -m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_09.data() );
+    hmd.m[2][2] = m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_10.data() );
+    hmd.m[2][3] = -m_pVRSettings->GetFloat( sEyeKey.data(), eye::k_svEyeToHead_11.data() );
+
+    return hmd;
 }

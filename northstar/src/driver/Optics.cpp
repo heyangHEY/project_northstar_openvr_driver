@@ -55,6 +55,10 @@ northstar::driver::COptics::SEyeConfiguration northstar::driver::COptics::LoadCo
             m_pVRSettings->GetFloat(sEyeKey.data(), eye::k_svEyeRotationY.data()),
             m_pVRSettings->GetFloat(sEyeKey.data(), eye::k_svEyeRotationZ.data()));
 
+    // "cameraProjection_x": -0.299042533,
+    // "cameraProjection_y": 0.304215378,
+    // "cameraProjection_w": -0.2455669,
+    // "cameraProjection_z": 0.08854639,
     sEyeConfiguration.v4dCameraProjectionFrustumExtentsLRTB =
         m_pWorldAdapter->FromUnityProjectionExtentsLRTBToOpenVRProjectionExtentsLRTB(
             m_pVectorFactory->V4DFromXYZWArray(

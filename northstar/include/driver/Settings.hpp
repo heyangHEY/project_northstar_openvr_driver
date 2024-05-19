@@ -32,6 +32,8 @@ namespace northstar {
 
                     /* from Server */
                     static constexpr std::string_view k_svEnableControllers = "enableControllers";
+
+                    static constexpr std::string_view k_svEnableDirectMode = "enableDirectMode"; // hey
                 }
 
                 namespace display {
@@ -50,6 +52,19 @@ namespace northstar {
                 namespace eye {
                     static constexpr std::string_view k_svRootLeft = "leftEye";
                     static constexpr std::string_view k_svRootRight = "rightEye";
+
+                    static constexpr std::string_view k_svEyeToHead_00 = "eyeToHead_e00"; // hey
+                    static constexpr std::string_view k_svEyeToHead_01 = "eyeToHead_e01"; // hey
+                    static constexpr std::string_view k_svEyeToHead_02 = "eyeToHead_e02"; // hey
+                    static constexpr std::string_view k_svEyeToHead_03 = "eyeToHead_e03"; // hey
+                    static constexpr std::string_view k_svEyeToHead_04 = "eyeToHead_e04"; // hey
+                    static constexpr std::string_view k_svEyeToHead_05 = "eyeToHead_e05"; // hey
+                    static constexpr std::string_view k_svEyeToHead_06 = "eyeToHead_e06"; // hey
+                    static constexpr std::string_view k_svEyeToHead_07 = "eyeToHead_e07"; // hey
+                    static constexpr std::string_view k_svEyeToHead_08 = "eyeToHead_e08"; // hey
+                    static constexpr std::string_view k_svEyeToHead_09 = "eyeToHead_e09"; // hey
+                    static constexpr std::string_view k_svEyeToHead_10 = "eyeToHead_e10"; // hey
+                    static constexpr std::string_view k_svEyeToHead_11 = "eyeToHead_e11"; // hey
 
                     static constexpr std::string_view k_svEllipseMinorAxis = "ellipseMinorAxis";
                     static constexpr std::string_view k_svEllipseMajorAxis = "ellipseMajorAxis";

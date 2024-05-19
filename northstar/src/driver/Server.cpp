@@ -128,7 +128,7 @@ void northstar::driver::CServer::RunFrame() {
 }
 
 bool northstar::driver::CServer::ShouldBlockStandbyMode() { 
-    return m_sConfiguration.bShouldBlockStandbyMode; 
+    return m_sConfiguration.bShouldBlockStandbyMode;  // true
 }
 
 void northstar::driver::CServer::EnterStandby() {}
