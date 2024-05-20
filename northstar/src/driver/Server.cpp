@@ -29,34 +29,20 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
         m_pVectorFactory,
         m_pLogger);
 
-    if (x_eSelectedEnvironmentSensor == EEnvironmentSensor::StructureCore) {
-        m_pEnvironmentSensor = std::make_shared<northstar::driver::CStructureSensor>(
-            m_pWorldAdapter,
-            m_pTimeProvider,
-            m_pLogger);
-    } else { // EEnvironmentSensor::RealSenseT265
-        m_pEnvironmentSensor = std::make_shared<northstar::driver::CRealSenseSensor>(
-            m_pTimeProvider,
-            m_pLogger);
-    }
+    m_pHMD = std::make_unique<northstar::driver::CHMD>(
+        vr::VRSettings(),
+        vr::VRServerDriverHost(),
+        m_pHostProber,
+        m_pVRProperties,
+        m_pVectorFactory,
+        m_pOptics,
+        m_pSensorFrameCoordinator,
+        m_pLogger);
 
-    if (m_pEnvironmentSensor->SessionStartWasSuccessful()) {
-        m_pHMD = std::make_unique<northstar::driver::CHMD>(
-            vr::VRSettings(),
-            vr::VRServerDriverHost(),
-            m_pHostProber,
-            m_pVRProperties,
-            m_pEnvironmentSensor,
-            m_pVectorFactory,
-            m_pOptics,
-            m_pSensorFrameCoordinator,
-            m_pLogger);
-
-        vr::VRServerDriverHost()->TrackedDeviceAdded(
-            "1024", // m_pHMD->GetSerialNumber().data(),
-            vr::TrackedDeviceClass_HMD,
-            m_pHMD.get());
-    }
+    vr::VRServerDriverHost()->TrackedDeviceAdded(
+        "1024", // m_pHMD->GetSerialNumber().data(),
+        vr::TrackedDeviceClass_HMD,
+        m_pHMD.get());
 
     return vr::EVRInitError::VRInitError_None;
 }
@@ -80,7 +66,6 @@ void northstar::driver::CServer::Cleanup() {
     m_pSensorFrameCoordinator = nullptr;
     m_pWorldAdapter = nullptr;
     m_pOptics = nullptr;
-    m_pEnvironmentSensor = nullptr;
     m_pHMD = nullptr;
 }
 

@@ -10,6 +10,8 @@
 #include "math/IWorldAdapter.hpp"
 #include "math/IMatrixFactory.hpp"
 #include "math/IVectorFactory.hpp"
+#define M_PI       3.14159265358979323846   // pi
+#define M_PI_2     1.57079632679489661923   // pi/2
 
 namespace northstar {
     namespace math {
@@ -19,9 +21,6 @@ namespace northstar {
                 std::shared_ptr<IMatrixFactory> pMatrixFactory,
                 std::shared_ptr<IVectorFactory> pVectorFactory);
 
-            virtual types::SPose FromStructureSensorPoseToOpenVRSpace(const ST::XRPose& Pose) override final;
-            virtual types::Vector3d FromStructureSensorLinearVectorArrayToOpenVRSpace(const std::array<double, 3>& Vector) override final;
-            virtual types::Vector3d FromStructureSensorAngularVectorArrayToOpenVRSpace(const std::array<double, 3>& Vector) override final;
             virtual types::AffineMatrix4d ConversionMatrixFromLeapMotionTrackingSpaceToHMDRelativeSpace(const types::Vector3d& v3dHeadRelativeLeapPosition, const types::Quaterniond& qdHeadRelativeLeapOrientation) override final;
             virtual types::AffineMatrix4d ConversionMatrixFromHMDSpaceToOpenVRWorldSpace(const vr::DriverPose_t& sOVRPose) override final;
             virtual types::Vector3d FromLeapMotionVelocityToOpenVRVelocity(const types::AffineMatrix4d& m4dConversionMatrix, const types::Vector3d& v3dLeapVelocity) override final;

@@ -2,7 +2,6 @@
 #include <string>
 #include <string_view>
 
-#include "driver/IEnvironmentSensor.hpp"
 #include "driver/IOptics.hpp"
 #include "driver/Settings.hpp"
 #include "driver/ISensorFrameCoordinator.hpp"
@@ -22,7 +21,6 @@ namespace northstar {
                 vr::IVRServerDriverHost* pVRServerDriverHost,
                 std::shared_ptr<northstar::utility::IHostProber> pHostProber,
                 std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
-                std::shared_ptr<northstar::driver::IEnvironmentSensor> pEnvironmentSensor,
                 std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
                 std::shared_ptr<northstar::driver::IOptics> pOptics,
                 std::shared_ptr<northstar::driver::ISensorFrameCoordinator> pSensorFrameCoordinator,
@@ -69,7 +67,6 @@ namespace northstar {
                 bool bUseFakeScreenConfig;
                 bool bUseFakeProjection;
                 bool bUseFakeWarp;
-                bool bUseFakeTracking;
                 double dIPD;
                 vr::HmdMatrix34_t mEyeToHeadLeft; // hey
                 vr::HmdMatrix34_t mEyeToHeadRight; // hey
@@ -89,7 +86,6 @@ namespace northstar {
             bool m_bDirectModeEnabled; // hey
             bool m_bFlag; // hey
 
-            std::shared_ptr<IEnvironmentSensor> m_pEnvironmentSensor;
             std::shared_ptr<northstar::math::IVectorFactory> m_pVectorFactory;
             std::shared_ptr<northstar::driver::IOptics> m_pOptics;
             std::shared_ptr<northstar::driver::ISensorFrameCoordinator> m_pSensorFrameCoordinator;

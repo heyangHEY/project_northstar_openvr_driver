@@ -11,15 +11,9 @@ endif(MSVC)
 if(NOT DEFINED OPENVR_INCLUDE_DIR 
    OR NOT DEFINED OPENVR_LIB_DIR
    OR NOT DEFINED OPENVR_IMPLEMENTATION_DIR
-   OR NOT DEFINED STRUCTURE_INCLUDE_DIR 
-   OR NOT DEFINED STRUCTURE_LIB_DIR 
-   OR NOT DEFINED STRUCTURE_IMPLEMENTATION_DIR
    OR NOT DEFINED LEAPSDK_INCLUDE_DIR
    OR NOT DEFINED LEAPSDK_LIB_DIR
    OR NOT DEFINED LEAPSDK_IMPLEMENTATION_DIR
-   OR NOT DEFINED REALSENSE_INCLUDE_DIR
-   OR NOT DEFINED REALSENSE_LIB_DIR
-   OR NOT DEFINED REALSENSE_IMPLEMENTATION_DIR
    OR NOT DEFINED GLEW_INCLUDE_DIR
    OR NOT DEFINED EIGEN_INCLUDE_DIR
    OR NOT DEFINED TROMPELOEIL_INCLUDE_DIR)
@@ -35,12 +29,8 @@ target_compile_definitions(northstar PUBLIC -D_EXPORT)
 target_include_directories(northstar PRIVATE include/)
 target_include_directories(northstar PRIVATE ${OPENVR_INCLUDE_DIR})
 target_link_libraries(northstar ${OPENVR_LIB_DIR}/openvr_api.lib)
-target_include_directories(northstar PRIVATE ${STRUCTURE_INCLUDE_DIR})
-target_link_libraries(northstar ${STRUCTURE_LIB_DIR}/Structure.lib)
 target_include_directories(northstar PRIVATE ${LEAPSDK_INCLUDE_DIR})
 target_link_libraries(northstar ${LEAPSDK_LIB_DIR}/x64/LeapC.lib)
-target_include_directories(northstar PRIVATE ${REALSENSE_INCLUDE_DIR})
-target_link_libraries(northstar ${REALSENSE_LIB_DIR}/realsense2.lib)
 target_include_directories(northstar PRIVATE ${GLEW_INCLUDE_DIR})
 target_include_directories(northstar PRIVATE ${EIGEN_INCLUDE_DIR})
 target_include_directories(northstar PRIVATE ${TROMPELOEIL_INCLUDE_DIR})
@@ -69,10 +59,8 @@ install(TARGETS northstar
   COMPONENT driver)
 
 install(FILES
-  ${STRUCTURE_IMPLEMENTATION_DIR}/Structure.dll
   ${OPENVR_IMPLEMENTATION_DIR}/openvr_api.dll
   ${LEAPSDK_IMPLEMENTATION_DIR}/x64/LeapC.dll
-  ${REALSENSE_IMPLEMENTATION_DIR}/realsense2.dll
   DESTINATION northstar/bin/win64
   COMPONENT driver)
 

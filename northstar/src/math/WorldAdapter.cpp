@@ -9,34 +9,6 @@ northstar::math::CWorldAdapter::CWorldAdapter(
     m_pVectorFactory = pVectorFactory;
 }
 
-// TODO: Document space (left handed, upside down, x left, y down, z forward)
-SPose northstar::math::CWorldAdapter::FromStructureSensorPoseToOpenVRSpace(const ST::XRPose& Pose) {
-    static const size_t rows = 4, columns = 4;
-    auto m4PoseMatrix = Pose.matrix.m;
-    auto adRowMajor = std::array<double, 16>();
-
-    for (size_t r = 0; r < rows; r++)
-        for (size_t c = 0; c < columns; c++)
-            adRowMajor[(r * rows) + c] = m4PoseMatrix[(c * columns) + r];
- 
-    auto m4d = m_pMatrixFactory->FromRowMajorArray(adRowMajor);
-    auto rotation = Quaterniond(m4d.rotation());
-    return {
-        Vector3d(-m4d.translation().x(), -m4d.translation().y(), -m4d.translation().z()),
-        Quaterniond(rotation.w(), rotation.x(), -rotation.y(), -rotation.z())
-    };
-}
-
-// TODO: this is jittery
-Vector3d northstar::math::CWorldAdapter::FromStructureSensorAngularVectorArrayToOpenVRSpace(const std::array<double, 3>& vdVector) {
-    return m_pVectorFactory->V3DFromArray(std::array<double, 3>{-vdVector[0], -vdVector[1], -vdVector[2]});
-}
-
-// TODO: this is jittery
-Vector3d northstar::math::CWorldAdapter::FromStructureSensorLinearVectorArrayToOpenVRSpace(const std::array<double, 3>& vdVector) {
-    return m_pVectorFactory->V3DFromArray(std::array<double, 3>{-vdVector[0], -vdVector[1], -vdVector[2]});
-}
-
 /*
 The position should be relative to the interpupillary median of the hmd. 
 The given matrix can be used before multiplying hmdToWorld from a vr Pose to get OVRWorldCoords.

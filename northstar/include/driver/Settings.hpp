@@ -17,7 +17,6 @@ namespace northstar {
                     static constexpr std::string_view k_svUseFakeScreenConfig = "useFakeScreenConfig";
                     static constexpr std::string_view k_svUseFakeProjection = "useFakeProjection";
                     static constexpr std::string_view k_svUseFakeWarp = "useFakeWarp";
-                    static constexpr std::string_view k_svUseFakeTracking = "useFakeTracking";
 
                     /* from Server */
                     static constexpr std::string_view k_svShouldBlockStandbyMode = "shouldBlockStandbyMode";
@@ -125,17 +124,6 @@ namespace northstar {
             }
 
             namespace values {
-                namespace icon {
-                    static constexpr std::string_view k_svDeviceOff = "{sample}/icons/headset_sample_status_off.png";
-                    static constexpr std::string_view k_svDeviceSearching = "{sample}/icons/headset_sample_status_searching.gif";
-                    static constexpr std::string_view k_svDeviceSearchingAlert = "{sample}/icons/headset_sample_status_searching_alert.gif";
-                    static constexpr std::string_view k_svDeviceReady = "{sample}/icons/headset_sample_status_ready.png";
-                    static constexpr std::string_view k_svDeviceReadyAlert = "{sample}/icons/headset_sample_status_ready_alert.png";
-                    static constexpr std::string_view k_svDeviceNotReady = "{sample}/icons/headset_sample_status_error.png";
-                    static constexpr std::string_view k_svDeviceStandby = "{sample}/icons/headset_sample_status_standby.png";
-                    static constexpr std::string_view k_svDeviceAlertLow = "{sample}/icons/headset_sample_status_ready_low.png";
-                }
-
                 namespace driverConfiguration {
                     static constexpr uint64_t k_uiCurrentUniverseID = 2;
                     static constexpr int32_t k_unBoneCount = 31;

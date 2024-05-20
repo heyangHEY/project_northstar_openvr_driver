@@ -20,7 +20,6 @@
 #include <utility>
 
 #include <Eigen/Dense>
-#include <ST/XRTypes.h>
 #include <openvr_driver.h>
 
 #include "math/Types.hpp"
@@ -29,9 +28,6 @@ namespace northstar {
     namespace math {
         class IWorldAdapter {
         public:
-            virtual types::SPose FromStructureSensorPoseToOpenVRSpace(const ST::XRPose& Pose) = 0;
-            virtual types::Vector3d FromStructureSensorLinearVectorArrayToOpenVRSpace(const std::array<double, 3>& Vector) = 0;
-            virtual types::Vector3d FromStructureSensorAngularVectorArrayToOpenVRSpace(const std::array<double, 3>& Vector) = 0;
             virtual types::AffineMatrix4d ConversionMatrixFromLeapMotionTrackingSpaceToHMDRelativeSpace(const types::Vector3d& v3dHeadRelativeLeapPosition, const types::Quaterniond& qdHeadRelativeLeapOrientation) = 0;
             virtual types::AffineMatrix4d ConversionMatrixFromHMDSpaceToOpenVRWorldSpace(const vr::DriverPose_t& sOVRPose) = 0;
             virtual types::Vector3d FromLeapMotionVelocityToOpenVRVelocity(const types::AffineMatrix4d& m4dConversionMatrix, const types::Vector3d& v3dLeapVelocity) = 0;

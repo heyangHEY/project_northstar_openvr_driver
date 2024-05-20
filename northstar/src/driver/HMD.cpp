@@ -9,7 +9,6 @@ northstar::driver::CHMD::CHMD(
     vr::IVRServerDriverHost* pVRServerDriverHost,
     std::shared_ptr<northstar::utility::IHostProber> pHostProber,
     std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
-    std::shared_ptr<northstar::driver::IEnvironmentSensor> pEnvironmentSensor, 
     std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
     std::shared_ptr<northstar::driver::IOptics> pOptics,
     std::shared_ptr<northstar::driver::ISensorFrameCoordinator> pSensorFrameCoordinator,
@@ -19,7 +18,6 @@ northstar::driver::CHMD::CHMD(
     m_pHostProber = pHostProber;
     m_pVRProperties = pVRProperties;
     m_pLogger = pLogger;
-    m_pEnvironmentSensor = pEnvironmentSensor;
     m_pVectorFactory = pVectorFactory;
     m_pOptics = pOptics;
     m_pSensorFrameCoordinator = pSensorFrameCoordinator;
@@ -35,7 +33,6 @@ void northstar::driver::CHMD::LoadConfiguration() {
     m_sConfiguration.bUseFakeScreenConfig = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeScreenConfig.data());
     m_sConfiguration.bUseFakeProjection = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeProjection.data());
     m_sConfiguration.bUseFakeWarp = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeWarp.data());
-    m_sConfiguration.bUseFakeTracking = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeTracking.data());
     m_sConfiguration.dIPD = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svIPD.data());
     m_sConfiguration.sDisplayConfiguration.dFrequency = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svFrequency.data());
     m_sConfiguration.sDisplayConfiguration.dPhotonLatency = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svPhotonLatency.data());
@@ -96,14 +93,6 @@ void northstar::driver::CHMD::SetOpenVRProperties() {
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_SecondsFromVsyncToPhotons_Float, static_cast<float>(m_sConfiguration.sDisplayConfiguration.dPhotonLatency));
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_UserHeadToEyeDepthMeters_Float, static_cast<float>(x_fUserHeadToEyeDepthInMeters));
     m_pVRProperties->SetUint64Property(m_sOpenVRState.ulPropertyContainer, vr::Prop_CurrentUniverseId_Uint64, driverConfiguration::k_uiCurrentUniverseID );
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceOff_String, icon::k_svDeviceOff.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceSearching_String, icon::k_svDeviceSearching.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceSearchingAlert_String, icon::k_svDeviceSearchingAlert.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceReady_String, icon::k_svDeviceReady.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceReadyAlert_String, icon::k_svDeviceReadyAlert.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceNotReady_String, icon::k_svDeviceNotReady.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceStandby_String, icon::k_svDeviceStandby.data());
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_NamedIconPathDeviceAlertLow_String, icon::k_svDeviceAlertLow.data());
 }
 
 void northstar::driver::CHMD::Deactivate() { 
@@ -134,32 +123,15 @@ bool northstar::driver::CHMD::IsDisplayRealDisplay() {
 
 // TODO: clean up sensor driver interaction
 vr::DriverPose_t northstar::driver::CHMD::GetPose() {
-    static northstar::driver::IEnvironmentSensor::EPoseRetrievalError eError;
-
-    if (m_sConfiguration.bUseFakeTracking) {
-        vr::DriverPose_t sFakePose = { 0 };
-        sFakePose.poseIsValid = true;
-        sFakePose.deviceIsConnected = true;
-        sFakePose.result = vr::TrackingResult_Running_OK;
-        sFakePose.qRotation = { 1, 0, 0, 0 };
-        sFakePose.qWorldFromDriverRotation = { 1, 0, 0, 0 };
-        sFakePose.qDriverFromHeadRotation = { 1, 0, 0, 0 };
-        m_pSensorFrameCoordinator->SubmitOpenVRHeadsetPose(sFakePose);
-        return sFakePose;
-    }
-
-    vr::DriverPose_t Pose;
-    Pose.poseIsValid = m_pEnvironmentSensor->GetPose(Pose, eError);
-    if (!Pose.poseIsValid) {
-        Pose.result = vr::TrackingResult_Uninitialized;
-        Pose.deviceIsConnected = false;
-        return Pose;
-    }
-
-    Pose.result = vr::TrackingResult_Running_OK;
-    Pose.deviceIsConnected = true;
-    m_pSensorFrameCoordinator->SubmitOpenVRHeadsetPose(Pose);
-    return Pose;
+    vr::DriverPose_t sFakePose = { 0 };
+    sFakePose.poseIsValid = true;
+    sFakePose.deviceIsConnected = true;
+    sFakePose.result = vr::TrackingResult_Running_OK;
+    sFakePose.qRotation = { 1, 0, 0, 0 };
+    sFakePose.qWorldFromDriverRotation = { 1, 0, 0, 0 };
+    sFakePose.qDriverFromHeadRotation = { 1, 0, 0, 0 };
+    m_pSensorFrameCoordinator->SubmitOpenVRHeadsetPose(sFakePose);
+    return sFakePose;
 }
 
 void northstar::driver::CHMD::GetWindowBounds(int32_t* pnX, int32_t* pnY, uint32_t* pnWidth, uint32_t* pnHeight) {

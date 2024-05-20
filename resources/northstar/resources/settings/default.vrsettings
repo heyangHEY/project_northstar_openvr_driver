@@ -10,7 +10,6 @@
     "useFakeScreenConfig": false,
     "useFakeProjection": false,
     "useFakeWarp": true,
-    "useFakeTracking": false,
     "shouldBlockStandbyMode": true
   },
   "configuration": {
