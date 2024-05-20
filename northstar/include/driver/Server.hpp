@@ -35,8 +35,6 @@ namespace northstar {
                 northstar::math::types::Quaterniond qdOrientation;
             };
 
-            void LoadConfiguration();
-
             SServerConfiguration m_sConfiguration;
             std::shared_ptr<northstar::math::CVectorFactory> m_pVectorFactory;
             std::shared_ptr<northstar::math::CMatrixFactory> m_pMatrixFactory;

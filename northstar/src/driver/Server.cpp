@@ -4,7 +4,6 @@ using namespace northstar::driver::settings::keys;
 
 vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverContext) {
     VR_INIT_SERVER_DRIVER_CONTEXT(pDriverContext);
-    LoadConfiguration();
     m_pLogger = std::make_shared<northstar::utility::CLogger>(vr::VRDriverLog());
     m_pVRProperties = std::make_shared<northstar::openvr::CVRProperties>(vr::VRProperties());
     m_pVectorFactory = std::make_shared<northstar::math::CVectorFactory>();
@@ -22,10 +21,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
         m_pHMD.get());
 
     return vr::EVRInitError::VRInitError_None;
-}
-
-void northstar::driver::CServer::LoadConfiguration() {
-    auto pVRSettings = vr::VRSettings();
 }
 
 void northstar::driver::CServer::Cleanup() {
