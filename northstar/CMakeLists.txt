@@ -11,9 +11,7 @@ endif(MSVC)
 if(NOT DEFINED OPENVR_INCLUDE_DIR 
    OR NOT DEFINED OPENVR_LIB_DIR
    OR NOT DEFINED OPENVR_IMPLEMENTATION_DIR
-   OR NOT DEFINED GLEW_INCLUDE_DIR
-   OR NOT DEFINED EIGEN_INCLUDE_DIR
-   OR NOT DEFINED TROMPELOEIL_INCLUDE_DIR)
+   OR NOT DEFINED EIGEN_INCLUDE_DIR)
     message(FATAL_ERROR "Please generate the project file using the CMakeLists file included in the root directory.")
 endif()
 
@@ -26,9 +24,7 @@ target_compile_definitions(northstar PUBLIC -D_EXPORT)
 target_include_directories(northstar PRIVATE include/)
 target_include_directories(northstar PRIVATE ${OPENVR_INCLUDE_DIR})
 target_link_libraries(northstar ${OPENVR_LIB_DIR}/openvr_api.lib)
-target_include_directories(northstar PRIVATE ${GLEW_INCLUDE_DIR})
 target_include_directories(northstar PRIVATE ${EIGEN_INCLUDE_DIR})
-target_include_directories(northstar PRIVATE ${TROMPELOEIL_INCLUDE_DIR})
 set_target_properties(northstar PROPERTIES PREFIX "driver_")
 
 # organize files better in visual studio
