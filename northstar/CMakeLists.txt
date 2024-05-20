@@ -76,19 +76,3 @@ include(InstallRequiredSystemLibraries)
 install(PROGRAMS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}
   DESTINATION northstar/bin/win64
 	COMPONENT driver)
-
-set(CPACK_GENERATOR NSIS)
-set(CPACK_PACKAGE_NAME "Northstar SteamVR Driver")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SteamVR Driver for the project northstar AR headset")
-set(CPACK_PACKAGE_VERSION "0.1.2")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "Northstar SteamVR Driver")
-SET(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "Northstar SteamVR Driver")
-SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
-SET(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/resources/installer/POST_INSTALL.md")
-set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL "ON")
-	
-include(CPack)
-
-cpack_add_component(northstar
-	DISPLAY_NAME "Northstar SteamVR Driver"
-	DESCRIPTION "Northstar SteamVR Driver")
