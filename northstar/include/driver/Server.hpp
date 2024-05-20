@@ -3,7 +3,6 @@
 #include <openvr_driver.h>
 
 #include "driver/HMD.hpp"
-#include "driver/Optics.hpp"
 #include "driver/Types.hpp"
 #include "driver/Settings.hpp"
 #include "openvr/VRProperties.hpp"
@@ -39,7 +38,6 @@ namespace northstar {
             std::shared_ptr<northstar::math::CMatrixFactory> m_pMatrixFactory;
             std::shared_ptr<northstar::math::CWorldAdapter> m_pWorldAdapter;
             std::shared_ptr<northstar::utility::CLogger> m_pLogger;
-            std::shared_ptr<northstar::driver::COptics> m_pOptics;
             std::unique_ptr<northstar::driver::CHMD> m_pHMD;
             std::shared_ptr<northstar::openvr::CVRProperties> m_pVRProperties;
         };

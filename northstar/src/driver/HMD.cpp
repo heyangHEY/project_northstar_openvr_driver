@@ -9,14 +9,12 @@ northstar::driver::CHMD::CHMD(
     vr::IVRServerDriverHost* pVRServerDriverHost,
     std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
     std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
-    std::shared_ptr<northstar::driver::IOptics> pOptics,
     std::shared_ptr<northstar::utility::ILogger> pLogger) {
     m_pVRSettings = pVRSettings;
     m_pVRServerDriverHost = pVRServerDriverHost;
     m_pVRProperties = pVRProperties;
     m_pLogger = pLogger;
     m_pVectorFactory = pVectorFactory;
-    m_pOptics = pOptics;
     m_sOpenVRState.unObjectId = vr::k_unTrackedDeviceIndexInvalid;
     m_sOpenVRState.ulPropertyContainer = vr::k_ulInvalidPropertyContainer;
     m_bFlag = false; // hey
@@ -53,6 +51,20 @@ void northstar::driver::CHMD::LoadConfiguration() {
 
     m_sConfiguration.mEyeToHeadLeft = LoadEyeToHeadTransformFromSettings(vr::Eye_Left); // hey
     m_sConfiguration.mEyeToHeadRight = LoadEyeToHeadTransformFromSettings(vr::Eye_Right); // hey
+
+    m_sConfiguration.v4dCameraProjectionFrustumExtentsLRTBLeft =
+        m_pVectorFactory->V4DFromXYZWArray(
+            { m_pVRSettings->GetFloat(eye::k_svRootLeft.data(), eye::k_svCameraProjectionX.data())
+            , m_pVRSettings->GetFloat(eye::k_svRootLeft.data(), eye::k_svCameraProjectionY.data())
+            , m_pVRSettings->GetFloat(eye::k_svRootLeft.data(), eye::k_svCameraProjectionW.data())
+            , m_pVRSettings->GetFloat(eye::k_svRootLeft.data(), eye::k_svCameraProjectionZ.data()) }); // 注意调换了w和z的位置
+
+    m_sConfiguration.v4dCameraProjectionFrustumExtentsLRTBRight =
+        m_pVectorFactory->V4DFromXYZWArray(
+            { m_pVRSettings->GetFloat(eye::k_svRootRight.data(), eye::k_svCameraProjectionX.data())
+            , m_pVRSettings->GetFloat(eye::k_svRootRight.data(), eye::k_svCameraProjectionY.data())
+            , m_pVRSettings->GetFloat(eye::k_svRootRight.data(), eye::k_svCameraProjectionW.data())
+            , m_pVRSettings->GetFloat(eye::k_svRootRight.data(), eye::k_svCameraProjectionZ.data()) });
 
     SetOpenVRConfiguration();
 }
@@ -163,7 +175,9 @@ void northstar::driver::CHMD::GetProjectionRaw(vr::EVREye eEye, float* pfLeft, f
     // "cameraProjection_w": -0.240336522,
     // "cameraProjection_z": 0.0948431145,
 
-    auto v4dEyeProjectionLRTB = m_pOptics->GetEyeProjectionLRTB(eEye);
+    auto v4dEyeProjectionLRTB = eEye == vr::Eye_Left ? 
+        m_sConfiguration.v4dCameraProjectionFrustumExtentsLRTBLeft :  m_sConfiguration.v4dCameraProjectionFrustumExtentsLRTBRight;
+
     *pfLeft = static_cast<float>(v4dEyeProjectionLRTB.x());
     *pfRight = static_cast<float>(v4dEyeProjectionLRTB.y());
     *pfTop = static_cast<float>(v4dEyeProjectionLRTB.z());

@@ -7,24 +7,13 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
     LoadConfiguration();
     m_pLogger = std::make_shared<northstar::utility::CLogger>(vr::VRDriverLog());
     m_pVRProperties = std::make_shared<northstar::openvr::CVRProperties>(vr::VRProperties());
-    m_pMatrixFactory = std::make_shared<northstar::math::CMatrixFactory>();
     m_pVectorFactory = std::make_shared<northstar::math::CVectorFactory>();
-    m_pWorldAdapter = std::make_shared<northstar::math::CWorldAdapter>(
-        m_pMatrixFactory,
-        m_pVectorFactory);
-
-    m_pOptics = std::make_shared<northstar::driver::COptics>(
-        vr::VRSettings(),
-        m_pWorldAdapter,
-        m_pVectorFactory,
-        m_pLogger);
 
     m_pHMD = std::make_unique<northstar::driver::CHMD>(
         vr::VRSettings(),
         vr::VRServerDriverHost(),
         m_pVRProperties,
         m_pVectorFactory,
-        m_pOptics,
         m_pLogger);
 
     vr::VRServerDriverHost()->TrackedDeviceAdded(
@@ -42,10 +31,7 @@ void northstar::driver::CServer::LoadConfiguration() {
 void northstar::driver::CServer::Cleanup() {
     m_pLogger = nullptr;
     m_pVRProperties = nullptr;
-    m_pMatrixFactory = nullptr;
     m_pVectorFactory = nullptr;
-    m_pWorldAdapter = nullptr;
-    m_pOptics = nullptr;
     m_pHMD = nullptr;
 }
 

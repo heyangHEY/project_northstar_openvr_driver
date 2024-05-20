@@ -2,7 +2,6 @@
 #include <string>
 #include <string_view>
 
-#include "driver/IOptics.hpp"
 #include "driver/Settings.hpp"
 #include "openvr/IVRProperties.hpp"
 #include "utility/Logger.hpp"
@@ -19,7 +18,6 @@ namespace northstar {
                 vr::IVRServerDriverHost* pVRServerDriverHost,
                 std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
                 std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
-                std::shared_ptr<northstar::driver::IOptics> pOptics,
                 std::shared_ptr<northstar::utility::ILogger> pLogger);
 
             // 继承自 vr::ITrackedDeviceServerDriver，见openvr_driver.h
@@ -65,6 +63,8 @@ namespace northstar {
                 double dIPD;
                 vr::HmdMatrix34_t mEyeToHeadLeft; // hey
                 vr::HmdMatrix34_t mEyeToHeadRight; // hey
+                northstar::math::types::Vector4d v4dCameraProjectionFrustumExtentsLRTBLeft;
+                northstar::math::types::Vector4d v4dCameraProjectionFrustumExtentsLRTBRight;
             };
 
             struct SOpenVRState {
@@ -82,7 +82,6 @@ namespace northstar {
             bool m_bFlag; // hey
 
             std::shared_ptr<northstar::math::IVectorFactory> m_pVectorFactory;
-            std::shared_ptr<northstar::driver::IOptics> m_pOptics;
             std::shared_ptr<northstar::utility::ILogger> m_pLogger;
             std::shared_ptr<northstar::openvr::IVRProperties> m_pVRProperties;
             vr::IVRSettings* m_pVRSettings;

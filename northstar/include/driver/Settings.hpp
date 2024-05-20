@@ -55,56 +55,10 @@ namespace northstar {
                     static constexpr std::string_view k_svEyeToHead_10 = "eyeToHead_e10"; // hey
                     static constexpr std::string_view k_svEyeToHead_11 = "eyeToHead_e11"; // hey
 
-                    static constexpr std::string_view k_svEllipseMinorAxis = "ellipseMinorAxis";
-                    static constexpr std::string_view k_svEllipseMajorAxis = "ellipseMajorAxis";
-
-                    static constexpr std::string_view k_svScreenForwardX = "screenForward_x";
-                    static constexpr std::string_view k_svScreenForwardY = "screenForward_y";
-                    static constexpr std::string_view k_svScreenForwardZ = "screenForward_z";
-
-                    static constexpr std::string_view k_svScreenPositionX = "screenPosition_x";
-                    static constexpr std::string_view k_svScreenPositionY = "screenPosition_y";
-                    static constexpr std::string_view k_svScreenPositionZ = "screenPosition_z";
-
-                    static constexpr std::string_view k_svEyePositionX = "eyePosition_x";
-                    static constexpr std::string_view k_svEyePositionY = "eyePosition_y";
-                    static constexpr std::string_view k_svEyePositionZ = "eyePosition_z";
-
-                    static constexpr std::string_view k_svEyeRotationX = "eyeRotation_x";
-                    static constexpr std::string_view k_svEyeRotationY = "eyeRotation_y";
-                    static constexpr std::string_view k_svEyeRotationZ = "eyeRotation_z";
-                    static constexpr std::string_view k_svEyeRotationW = "eyeRotation_w";
-
                     static constexpr std::string_view k_svCameraProjectionX = "cameraProjection_x";
                     static constexpr std::string_view k_svCameraProjectionY = "cameraProjection_y";
                     static constexpr std::string_view k_svCameraProjectionZ = "cameraProjection_z";
                     static constexpr std::string_view k_svCameraProjectionW = "cameraProjection_w";
-
-                    static constexpr std::string_view k_svSphereToWorldSpace_00 = "sphereToWorldSpace_e00";
-                    static constexpr std::string_view k_svSphereToWorldSpace_01 = "sphereToWorldSpace_e01";
-                    static constexpr std::string_view k_svSphereToWorldSpace_02 = "sphereToWorldSpace_e02";
-                    static constexpr std::string_view k_svSphereToWorldSpace_03 = "sphereToWorldSpace_e03";
-                    static constexpr std::string_view k_svSphereToWorldSpace_10 = "sphereToWorldSpace_e10";
-                    static constexpr std::string_view k_svSphereToWorldSpace_11 = "sphereToWorldSpace_e11";
-                    static constexpr std::string_view k_svSphereToWorldSpace_12 = "sphereToWorldSpace_e12";
-                    static constexpr std::string_view k_svSphereToWorldSpace_13 = "sphereToWorldSpace_e13";
-                    static constexpr std::string_view k_svSphereToWorldSpace_20 = "sphereToWorldSpace_e20";
-                    static constexpr std::string_view k_svSphereToWorldSpace_21 = "sphereToWorldSpace_e21";
-                    static constexpr std::string_view k_svSphereToWorldSpace_22 = "sphereToWorldSpace_e22";
-                    static constexpr std::string_view k_svSphereToWorldSpace_23 = "sphereToWorldSpace_e23";
-
-                    static constexpr std::string_view k_svWorldToScreenSpace_00 = "worldToScreenSpace_e00";
-                    static constexpr std::string_view k_svWorldToScreenSpace_01 = "worldToScreenSpace_e01";
-                    static constexpr std::string_view k_svWorldToScreenSpace_02 = "worldToScreenSpace_e02";
-                    static constexpr std::string_view k_svWorldToScreenSpace_03 = "worldToScreenSpace_e03";
-                    static constexpr std::string_view k_svWorldToScreenSpace_10 = "worldToScreenSpace_e10";
-                    static constexpr std::string_view k_svWorldToScreenSpace_11 = "worldToScreenSpace_e11";
-                    static constexpr std::string_view k_svWorldToScreenSpace_12 = "worldToScreenSpace_e12";
-                    static constexpr std::string_view k_svWorldToScreenSpace_13 = "worldToScreenSpace_e13";
-                    static constexpr std::string_view k_svWorldToScreenSpace_20 = "worldToScreenSpace_e20";
-                    static constexpr std::string_view k_svWorldToScreenSpace_21 = "worldToScreenSpace_e21";
-                    static constexpr std::string_view k_svWorldToScreenSpace_22 = "worldToScreenSpace_e22";
-                    static constexpr std::string_view k_svWorldToScreenSpace_23 = "worldToScreenSpace_e23";
                 }
             }
 
