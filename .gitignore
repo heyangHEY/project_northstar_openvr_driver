@@ -3,3 +3,6 @@
 *.vc*
 build
 install
+Thirdparty
+.vscode
+temp

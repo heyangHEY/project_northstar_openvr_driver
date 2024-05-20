@@ -11,12 +11,9 @@
     "useFakeProjection": false,
     "useFakeWarp": true,
     "useFakeTracking": false,
-    "useControllerDebugMode": false,
     "shouldBlockStandbyMode": true
   },
   "configuration": {
-    "useRenderModel": true,
-    "enableControllers": true,
     "enableDirectMode": false
   },
   "display": {

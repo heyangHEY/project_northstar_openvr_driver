@@ -86,9 +86,9 @@ void northstar::driver::CHMD::SetOpenVRProperties() {
     if (m_sConfiguration.bUseFakeScreenConfig)
         m_pVRProperties->SetBoolProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_IsOnDesktop_Bool, false);
 
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_SerialNumber_String, x_svSerialNumber.data() );
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_ModelNumber_String, x_svModelNumber.data() );
-    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_RenderModelName_String, x_svModelNumber.data() );
+    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_SerialNumber_String, "1024" );
+    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_ModelNumber_String, "0" );
+    m_pVRProperties->SetStringProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_RenderModelName_String, "0" );
     m_pVRProperties->SetFloatProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_UserIpdMeters_Float, static_cast<float>(m_sConfiguration.dIPD));
     // m_pVRProperties->SetBoolProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_HasDriverDirectModeComponent_Bool, x_bDirectModeEnabled); // hey
     m_pVRProperties->SetBoolProperty(m_sOpenVRState.ulPropertyContainer, vr::Prop_HasDriverDirectModeComponent_Bool, m_bDirectModeEnabled); // hey
@@ -251,10 +251,6 @@ void northstar::driver::CHMD::RunFrame() {
                 m_sConfiguration.mEyeToHeadRight);
         }
     }
-}
-
-const std::string_view& northstar::driver::CHMD::GetSerialNumber() const {
-    return x_svSerialNumber;
 }
 
 // hey

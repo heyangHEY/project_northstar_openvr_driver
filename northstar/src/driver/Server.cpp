@@ -40,7 +40,7 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
             m_pLogger);
     }
 
-    if (m_pEnvironmentSensor->SessionStartWasSuccessful() || m_sConfiguration.bUseControllerDebugMode) {
+    if (m_pEnvironmentSensor->SessionStartWasSuccessful()) {
         m_pHMD = std::make_unique<northstar::driver::CHMD>(
             vr::VRSettings(),
             vr::VRServerDriverHost(),
@@ -53,31 +53,9 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
             m_pLogger);
 
         vr::VRServerDriverHost()->TrackedDeviceAdded(
-            m_pHMD->GetSerialNumber().data(),
+            "1024", // m_pHMD->GetSerialNumber().data(),
             vr::TrackedDeviceClass_HMD,
             m_pHMD.get());
-
-        if (m_sConfiguration.bEnableControllers) {
-            for (const auto& eHand : x_aeHands) {
-                m_pControllers.push_back(
-                    std::make_unique<CController>(
-                        m_pSensorFrameCoordinator,
-                        m_pWorldAdapter,
-                        m_pVectorFactory,
-                        m_pSkeletalAdapter,
-                        m_pLogger,
-                        m_pVRProperties,
-                        vr::VRSettings(),
-                        vr::VRServerDriverHost(),
-                        vr::VRDriverInput(),
-                        eHand));
-
-                vr::VRServerDriverHost()->TrackedDeviceAdded(
-                    m_pControllers.back()->GetSerialNumber().data(),
-                    vr::TrackedDeviceClass_Controller,
-                    m_pControllers.back().get());
-            }
-        }
     }
 
     return vr::EVRInitError::VRInitError_None;
@@ -85,9 +63,7 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
 
 void northstar::driver::CServer::LoadConfiguration() {
     auto pVRSettings = vr::VRSettings();
-    m_sConfiguration.bUseControllerDebugMode = pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseControllerDebugMode.data());
     m_sConfiguration.bShouldBlockStandbyMode = pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svShouldBlockStandbyMode.data());
-    m_sConfiguration.bEnableControllers = pVRSettings->GetBool(configuration::k_svRoot.data(), configuration::k_svEnableControllers.data());
 }
 
 void northstar::driver::CServer::Cleanup() {
@@ -106,7 +82,6 @@ void northstar::driver::CServer::Cleanup() {
     m_pOptics = nullptr;
     m_pEnvironmentSensor = nullptr;
     m_pHMD = nullptr;
-    m_pControllers.clear();
 }
 
 const char* const* northstar::driver::CServer::GetInterfaceVersions() { 
@@ -119,9 +94,6 @@ void northstar::driver::CServer::RunFrame() {
 
     if (m_pHMD)
         m_pHMD->RunFrame();
-
-    for (auto& controller : m_pControllers)
-        controller->RunFrame();
 
     static vr::VREvent_t vrEvent;
     while (vr::VRServerDriverHost()->PollNextEvent(&vrEvent, sizeof(vrEvent))) {}

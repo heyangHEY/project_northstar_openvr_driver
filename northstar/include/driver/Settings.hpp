@@ -20,19 +20,13 @@ namespace northstar {
                     static constexpr std::string_view k_svUseFakeTracking = "useFakeTracking";
 
                     /* from Server */
-                    static constexpr std::string_view k_svUseControllerDebugMode = "useControllerDebugMode";
                     static constexpr std::string_view k_svShouldBlockStandbyMode = "shouldBlockStandbyMode";
                 }
 
                 namespace configuration {
                     static constexpr std::string_view k_svRoot = "configuration";
 
-                    /* from Controller */
-                    static constexpr std::string_view k_svUseRenderModel = "useRenderModel";
-
                     /* from Server */
-                    static constexpr std::string_view k_svEnableControllers = "enableControllers";
-
                     static constexpr std::string_view k_svEnableDirectMode = "enableDirectMode"; // hey
                 }
 
@@ -140,19 +134,6 @@ namespace northstar {
                     static constexpr std::string_view k_svDeviceNotReady = "{sample}/icons/headset_sample_status_error.png";
                     static constexpr std::string_view k_svDeviceStandby = "{sample}/icons/headset_sample_status_standby.png";
                     static constexpr std::string_view k_svDeviceAlertLow = "{sample}/icons/headset_sample_status_ready_low.png";
-                }
-
-                namespace paths {
-                    static constexpr std::string_view k_svInputProfilePath = "{northstar}/input/northstar_profile.json";
-                    static constexpr std::string_view k_svTriggerValuePath = "/input/trigger/value";
-                    static constexpr std::string_view k_svAClickPath = "/input/a/click";
-                    static constexpr std::string_view k_svBClickPath = "/input/b/click";
-                    static constexpr std::string_view k_svSystemClickPath = "/input/system/click";
-                    static constexpr std::string_view k_svSkeletalInputPathNameLeft = "/input/skeleton/left";
-                    static constexpr std::string_view k_svSkeletalInputPathNameRight = "/input/skeleton/right";
-                    static constexpr std::string_view k_svSkeletalInputPathLeft = "/skeleton/hand/left";
-                    static constexpr std::string_view k_svSkeletalInputPathRight = "/skeleton/hand/right";
-                    static constexpr std::string_view k_svSkeletalInputPoseBasePath = "/pose/raw";
                 }
 
                 namespace driverConfiguration {

@@ -3,7 +3,6 @@
 #include <openvr_driver.h>
 
 #include "driver/HMD.hpp"
-#include "driver/Controller.hpp"
 #include "driver/Optics.hpp"
 #include "driver/SensorFrameCoordinator.hpp"
 #include "driver/LeapMotion.hpp"
@@ -47,9 +46,7 @@ namespace northstar {
             struct SServerConfiguration{
                 northstar::math::types::Vector3d v3dPosition;
                 northstar::math::types::Quaterniond qdOrientation;
-                bool bUseControllerDebugMode;
                 bool bShouldBlockStandbyMode;
-                bool bEnableControllers;
             };
 
             void LoadConfiguration();
@@ -69,7 +66,6 @@ namespace northstar {
             std::shared_ptr<northstar::driver::CSensorFrameCoordinator> m_pSensorFrameCoordinator;
             std::shared_ptr<northstar::driver::COptics> m_pOptics;
             std::unique_ptr<northstar::driver::CHMD> m_pHMD;
-            std::vector<std::unique_ptr<northstar::driver::CController>> m_pControllers;
             std::shared_ptr<northstar::openvr::CVRProperties> m_pVRProperties;
         };
     }

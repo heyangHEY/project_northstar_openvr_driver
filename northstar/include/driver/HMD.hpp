@@ -46,7 +46,6 @@ namespace northstar {
             virtual vr::DistortionCoordinates_t ComputeDistortion(vr::EVREye eEye, float fU, float fV) override final;
 
             void RunFrame();
-            const std::string_view& GetSerialNumber() const;
             vr::HmdMatrix34_t LoadEyeToHeadTransformFromSettings(vr::EVREye eEye); // hey
 
         private:
@@ -56,8 +55,6 @@ namespace northstar {
 
             static constexpr bool x_bIsDisplayOnDesktop = true;
             static constexpr bool x_bIsDisplayRealDisplay = true;
-            static constexpr std::string_view x_svSerialNumber = "1024";
-            static constexpr std::string_view x_svModelNumber = "0";
 
             struct SDisplayConfiguration {
                 northstar::math::types::Vector2i v2iWindowOrigin;
