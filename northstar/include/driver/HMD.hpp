@@ -62,7 +62,6 @@ namespace northstar {
                 SDisplayConfiguration sDisplayConfiguration;
                 bool bUseFakeScreenConfig;
                 bool bUseFakeProjection;
-                bool bUseFakeWarp;
                 double dIPD;
                 vr::HmdMatrix34_t mEyeToHeadLeft; // hey
                 vr::HmdMatrix34_t mEyeToHeadRight; // hey

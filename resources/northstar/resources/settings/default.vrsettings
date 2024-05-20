@@ -8,8 +8,7 @@
     "useDebugTrackerConfig": false,
     "useDebugBasePose": false,
     "useFakeScreenConfig": false,
-    "useFakeProjection": false,
-    "useFakeWarp": true
+    "useFakeProjection": false
   },
   "configuration": {
     "enableDirectMode": false

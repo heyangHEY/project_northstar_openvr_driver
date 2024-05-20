@@ -28,7 +28,6 @@ void northstar::driver::CHMD::LoadConfiguration() {
     // TODO: use vector factory
     m_sConfiguration.bUseFakeScreenConfig = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeScreenConfig.data());
     m_sConfiguration.bUseFakeProjection = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeProjection.data());
-    m_sConfiguration.bUseFakeWarp = m_pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svUseFakeWarp.data());
     m_sConfiguration.dIPD = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svIPD.data());
     m_sConfiguration.sDisplayConfiguration.dFrequency = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svFrequency.data());
     m_sConfiguration.sDisplayConfiguration.dPhotonLatency = m_pVRSettings->GetFloat(display::k_svRoot.data(), display::k_svPhotonLatency.data());
@@ -173,23 +172,12 @@ void northstar::driver::CHMD::GetProjectionRaw(vr::EVREye eEye, float* pfLeft, f
 
 vr::DistortionCoordinates_t northstar::driver::CHMD::ComputeDistortion(vr::EVREye eEye, float fU, float fV) {
     vr::DistortionCoordinates_t coordinates;
-    if (m_sConfiguration.bUseFakeWarp) {
-        coordinates.rfRed[0] = fU;
-        coordinates.rfRed[1] = fV;
-        coordinates.rfGreen[0] = fU;
-        coordinates.rfGreen[1] = fV;
-        coordinates.rfBlue[0] = fU;
-        coordinates.rfBlue[1] = fV;
-        return coordinates;
-    }
-
-    auto v2dUVDistortionWarp = m_pOptics->EyeUVToScreenUV(eEye, m_pVectorFactory->V2DFromArray({ fU, fV }));
-    coordinates.rfRed[0] = static_cast<float>(v2dUVDistortionWarp.x());
-    coordinates.rfRed[1] = static_cast<float>(v2dUVDistortionWarp.y());
-    coordinates.rfGreen[0] = static_cast<float>(v2dUVDistortionWarp.x());
-    coordinates.rfGreen[1] = static_cast<float>(v2dUVDistortionWarp.y());
-    coordinates.rfBlue[0] = static_cast<float>(v2dUVDistortionWarp.x());
-    coordinates.rfBlue[1] = static_cast<float>(v2dUVDistortionWarp.y());
+    coordinates.rfRed[0] = fU;
+    coordinates.rfRed[1] = fV;
+    coordinates.rfGreen[0] = fU;
+    coordinates.rfGreen[1] = fV;
+    coordinates.rfBlue[0] = fU;
+    coordinates.rfBlue[1] = fV;
     return coordinates;
 }
 

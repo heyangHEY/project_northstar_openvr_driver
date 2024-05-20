@@ -16,7 +16,6 @@ namespace northstar {
                     /* from HMD */
                     static constexpr std::string_view k_svUseFakeScreenConfig = "useFakeScreenConfig";
                     static constexpr std::string_view k_svUseFakeProjection = "useFakeProjection";
-                    static constexpr std::string_view k_svUseFakeWarp = "useFakeWarp";
                 }
 
                 namespace configuration {
