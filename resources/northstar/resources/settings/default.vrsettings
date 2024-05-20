@@ -9,8 +9,7 @@
     "useDebugBasePose": false,
     "useFakeScreenConfig": false,
     "useFakeProjection": false,
-    "useFakeWarp": true,
-    "shouldBlockStandbyMode": true
+    "useFakeWarp": true
   },
   "configuration": {
     "enableDirectMode": false

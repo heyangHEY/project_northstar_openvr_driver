@@ -45,7 +45,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
 
 void northstar::driver::CServer::LoadConfiguration() {
     auto pVRSettings = vr::VRSettings();
-    m_sConfiguration.bShouldBlockStandbyMode = pVRSettings->GetBool(debug::k_svRoot.data(), debug::k_svShouldBlockStandbyMode.data());
 }
 
 void northstar::driver::CServer::Cleanup() {
@@ -75,7 +74,7 @@ void northstar::driver::CServer::RunFrame() {
 }
 
 bool northstar::driver::CServer::ShouldBlockStandbyMode() { 
-    return m_sConfiguration.bShouldBlockStandbyMode;  // true
+    return true;  // true
 }
 
 void northstar::driver::CServer::EnterStandby() {}

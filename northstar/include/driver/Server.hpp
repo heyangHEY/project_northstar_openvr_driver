@@ -34,7 +34,6 @@ namespace northstar {
             struct SServerConfiguration{
                 northstar::math::types::Vector3d v3dPosition;
                 northstar::math::types::Quaterniond qdOrientation;
-                bool bShouldBlockStandbyMode;
             };
 
             void LoadConfiguration();
