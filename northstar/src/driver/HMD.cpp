@@ -11,7 +11,6 @@ northstar::driver::CHMD::CHMD(
     std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
     std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
     std::shared_ptr<northstar::driver::IOptics> pOptics,
-    std::shared_ptr<northstar::driver::ISensorFrameCoordinator> pSensorFrameCoordinator,
     std::shared_ptr<northstar::utility::ILogger> pLogger) {
     m_pVRSettings = pVRSettings;
     m_pVRServerDriverHost = pVRServerDriverHost;
@@ -20,7 +19,6 @@ northstar::driver::CHMD::CHMD(
     m_pLogger = pLogger;
     m_pVectorFactory = pVectorFactory;
     m_pOptics = pOptics;
-    m_pSensorFrameCoordinator = pSensorFrameCoordinator;
     m_sOpenVRState.unObjectId = vr::k_unTrackedDeviceIndexInvalid;
     m_sOpenVRState.ulPropertyContainer = vr::k_ulInvalidPropertyContainer;
     m_bFlag = false; // hey
@@ -130,7 +128,6 @@ vr::DriverPose_t northstar::driver::CHMD::GetPose() {
     sFakePose.qRotation = { 1, 0, 0, 0 };
     sFakePose.qWorldFromDriverRotation = { 1, 0, 0, 0 };
     sFakePose.qDriverFromHeadRotation = { 1, 0, 0, 0 };
-    m_pSensorFrameCoordinator->SubmitOpenVRHeadsetPose(sFakePose);
     return sFakePose;
 }
 

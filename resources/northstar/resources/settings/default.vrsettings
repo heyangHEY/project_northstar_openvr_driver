@@ -139,14 +139,5 @@
     "worldToScreenSpace_e21": -0.19497761130332948,
     "worldToScreenSpace_e22": 0.9365188479423523,
     "worldToScreenSpace_e23": 0.007533225230872631
-  },
-  "leapTrackerOdometryOrigin": {
-    "position_x": 0.0,
-    "position_y": 0.0,
-    "position_z": 0.0,
-    "rotation_x": 0.0,
-    "rotation_y": 0.0,
-    "rotation_z": 0.0,
-    "rotation_w": 0.0
   }
 }

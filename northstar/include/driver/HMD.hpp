@@ -4,7 +4,6 @@
 
 #include "driver/IOptics.hpp"
 #include "driver/Settings.hpp"
-#include "driver/ISensorFrameCoordinator.hpp"
 #include "openvr/IVRProperties.hpp"
 #include "utility/Logger.hpp"
 #include "utility/IHostProber.hpp"
@@ -23,7 +22,6 @@ namespace northstar {
                 std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
                 std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
                 std::shared_ptr<northstar::driver::IOptics> pOptics,
-                std::shared_ptr<northstar::driver::ISensorFrameCoordinator> pSensorFrameCoordinator,
                 std::shared_ptr<northstar::utility::ILogger> pLogger);
 
             // 继承自 vr::ITrackedDeviceServerDriver，见openvr_driver.h
@@ -88,7 +86,6 @@ namespace northstar {
 
             std::shared_ptr<northstar::math::IVectorFactory> m_pVectorFactory;
             std::shared_ptr<northstar::driver::IOptics> m_pOptics;
-            std::shared_ptr<northstar::driver::ISensorFrameCoordinator> m_pSensorFrameCoordinator;
             std::shared_ptr<northstar::utility::IHostProber> m_pHostProber;
             std::shared_ptr<northstar::utility::ILogger> m_pLogger;
             std::shared_ptr<northstar::openvr::IVRProperties> m_pVRProperties;

@@ -7,8 +7,5 @@ set(OPENVR_IMPLEMENTATION_DIR ${CMAKE_SOURCE_DIR}/external/openvr/bin/win64 CACH
 set(GLEW_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/glew/include CACHE STRING "Glew include directory")
 set(EIGEN_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/eigen CACHE STRING "Eigen include directory")
 set(TROMPELOEIL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/trompeloeil/include CACHE STRING "Trompeloeil include directory")
-set(LEAPSDK_LIB_DIR ${CMAKE_SOURCE_DIR}/external/LeapSDK_v5_gemini/lib CACHE STRING "Leap SDK lib directory")
-set(LEAPSDK_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/LeapSDK_v5_gemini/include CACHE STRING "Leap SDK include directory")
-set(LEAPSDK_IMPLEMENTATION_DIR ${CMAKE_SOURCE_DIR}/external/LeapSDK_v5_gemini/lib CACHE STRING "Leap SDK implementation directory")
 
 add_subdirectory(northstar)

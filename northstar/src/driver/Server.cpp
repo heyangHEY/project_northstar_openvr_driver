@@ -13,9 +13,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
     m_pTimeProvider = std::make_shared<northstar::utility::CTimeProvider>();
     m_pSpaceAdapter = std::make_shared<northstar::math::CSpaceAdapter>(m_pVectorFactory);
     m_pGeometry = std::make_shared <northstar::math::CGeometry>(m_pVectorFactory);
-    m_pSkeletalAdapter = std::make_shared<northstar::math::CSkeletalAdapter>(m_pVectorFactory, m_pMatrixFactory, m_pLogger);
-    m_pLeapMotion = std::make_shared<northstar::driver::CLeapMotion>(m_pLogger);
-    m_pSensorFrameCoordinator = std::make_shared<northstar::driver::CSensorFrameCoordinator>(m_pLeapMotion, m_pLogger);
     m_pWorldAdapter = std::make_shared<northstar::math::CWorldAdapter>(
         m_pMatrixFactory,
         m_pVectorFactory);
@@ -36,7 +33,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
         m_pVRProperties,
         m_pVectorFactory,
         m_pOptics,
-        m_pSensorFrameCoordinator,
         m_pLogger);
 
     vr::VRServerDriverHost()->TrackedDeviceAdded(
@@ -61,9 +57,6 @@ void northstar::driver::CServer::Cleanup() {
     m_pTimeProvider = nullptr;
     m_pSpaceAdapter = nullptr;
     m_pGeometry = nullptr;
-    m_pSkeletalAdapter = nullptr;
-    m_pLeapMotion = nullptr;
-    m_pSensorFrameCoordinator = nullptr;
     m_pWorldAdapter = nullptr;
     m_pOptics = nullptr;
     m_pHMD = nullptr;
@@ -74,9 +67,6 @@ const char* const* northstar::driver::CServer::GetInterfaceVersions() {
 }
 
 void northstar::driver::CServer::RunFrame() {
-    if (m_pSensorFrameCoordinator)
-        m_pSensorFrameCoordinator->ResetFrameState();
-
     if (m_pHMD)
         m_pHMD->RunFrame();
 

@@ -28,9 +28,7 @@ namespace northstar {
     namespace math {
         class IWorldAdapter {
         public:
-            virtual types::AffineMatrix4d ConversionMatrixFromLeapMotionTrackingSpaceToHMDRelativeSpace(const types::Vector3d& v3dHeadRelativeLeapPosition, const types::Quaterniond& qdHeadRelativeLeapOrientation) = 0;
             virtual types::AffineMatrix4d ConversionMatrixFromHMDSpaceToOpenVRWorldSpace(const vr::DriverPose_t& sOVRPose) = 0;
-            virtual types::Vector3d FromLeapMotionVelocityToOpenVRVelocity(const types::AffineMatrix4d& m4dConversionMatrix, const types::Vector3d& v3dLeapVelocity) = 0;
             virtual types::Quaterniond FromUnityQuaternionToOpenVRQuaternion(const types::Quaterniond& qdUnityRotation) = 0;
             virtual types::Vector3d FromUnityPositionToOpenVRPosition(const types::Vector3d& v3dUnityPosition) = 0;
             virtual types::Vector4d FromUnityProjectionExtentsLRTBToOpenVRProjectionExtentsLRTB(const types::Vector4d& v4dUnityProjectionExtentsLRTB) = 0;

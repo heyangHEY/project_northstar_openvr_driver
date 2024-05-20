@@ -10,38 +10,6 @@ northstar::math::CWorldAdapter::CWorldAdapter(
 }
 
 /*
-The position should be relative to the interpupillary median of the hmd. 
-The given matrix can be used before multiplying hmdToWorld from a vr Pose to get OVRWorldCoords.
-
-Leap motions axis relative to the northstar mount are +z down, +x left, +y forward
-The units supplied are in millimeters
-
-To convert to hmd relative space you need the following matricies:
-
-mounted sensor space to ovr like space (-z forward, +x right, +y up)
-R_OpenVR = rotate -90 about x and 180 about z
-R_MountedOrientation = rotate according to the angle offset of the mount (provided by quaternion)
-T_Mounted = translation provide relative to hmd interpupillary median.
-S_UnitConversion = scale by .001 to go from millimeters to meters
-
-Given a translation matrix:
-T_LeapToHmd = S_UnitConversion * T_Mounted * R_MountedOrientation * R_OpenVR
-
-The ovr space coordinates can be given by:
-OVR_World = OVR_HmdToWorld * T_LeapToHmd
-*/
-AffineMatrix4d northstar::math::CWorldAdapter::ConversionMatrixFromLeapMotionTrackingSpaceToHMDRelativeSpace(const Vector3d& v3dHeadRelativeLeapPosition, const Quaterniond& qdHeadRelativeLeapOrientation) {
-    static const Quaterniond qdRotateFromLeapMotionSensorSpaceToOpenVRSensorSpace =
-        Quaterniond(AngleAxisd(-M_PI, Vector3d::UnitZ())) * Quaterniond(AngleAxisd(-M_PI_2, Vector3d::UnitX()));
-
-    return AffineMatrix4d::Identity()
-        * Eigen::Scaling(x_dMillimetersToMeters)
-        * Translation3d(v3dHeadRelativeLeapPosition)
-        * qdHeadRelativeLeapOrientation
-        * qdRotateFromLeapMotionSensorSpaceToOpenVRSensorSpace;
-}
-
-/*
 Given a pose return a rotation and scaling matrix
 */
 AffineMatrix4d northstar::math::CWorldAdapter::ConversionMatrixFromHMDSpaceToOpenVRWorldSpace(const vr::DriverPose_t& sOVRPose) {
@@ -49,14 +17,6 @@ AffineMatrix4d northstar::math::CWorldAdapter::ConversionMatrixFromHMDSpaceToOpe
         * Translation3d(
             m_pVectorFactory->V3DFromArray({ sOVRPose.vecPosition[0], sOVRPose.vecPosition[1], sOVRPose.vecPosition[2] }))
         * Quaterniond(sOVRPose.qRotation.w, sOVRPose.qRotation.x, sOVRPose.qRotation.y, sOVRPose.qRotation.z);
-}
-
-/*
-Given the supplied conversion matrix from this utility, convert a velocity vector into OVR space
-*/
-Vector3d northstar::math::CWorldAdapter::FromLeapMotionVelocityToOpenVRVelocity(const AffineMatrix4d& m4dConversionMatrix, const Vector3d& v3dLeapVelocity) {
-    auto v4dConverted = Translation3d(m4dConversionMatrix.translation()) * m4dConversionMatrix.rotation() * m_pVectorFactory->V4DFromV3DXYZandW(v3dLeapVelocity, 1);
-    return Vector3d(v4dConverted.x(), v4dConverted.y(), v4dConverted.z());
 }
 
 /*

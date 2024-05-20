@@ -110,17 +110,6 @@ namespace northstar {
                     static constexpr std::string_view k_svWorldToScreenSpace_22 = "worldToScreenSpace_e22";
                     static constexpr std::string_view k_svWorldToScreenSpace_23 = "worldToScreenSpace_e23";
                 }
-
-                namespace leapMotion {
-                    static constexpr std::string_view k_svRoot = "leapTrackerOdometryOrigin";
-                    static constexpr std::string_view k_svPositionX = "position_x";
-                    static constexpr std::string_view k_svPositionY = "position_y";
-                    static constexpr std::string_view k_svPositionZ = "position_z";
-                    static constexpr std::string_view k_svRotationX = "rotation_x";
-                    static constexpr std::string_view k_svRotationY = "rotation_y";
-                    static constexpr std::string_view k_svRotationZ = "rotation_z";
-                    static constexpr std::string_view k_svRotationW = "rotation_w";
-                }
             }
 
             namespace values {
