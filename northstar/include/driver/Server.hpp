@@ -10,8 +10,6 @@
 #include "math/WorldAdapter.hpp"
 #include "math/MatrixFactory.hpp"
 #include "math/VectorFactory.hpp"
-#include "math/Geometry.hpp"
-#include "math/SpaceAdapter.hpp"
 
 namespace northstar {
     namespace driver {
@@ -40,8 +38,6 @@ namespace northstar {
             std::shared_ptr<northstar::math::CVectorFactory> m_pVectorFactory;
             std::shared_ptr<northstar::math::CMatrixFactory> m_pMatrixFactory;
             std::shared_ptr<northstar::math::CWorldAdapter> m_pWorldAdapter;
-            std::shared_ptr<northstar::math::CSpaceAdapter> m_pSpaceAdapter;
-            std::shared_ptr<northstar::math::CGeometry> m_pGeometry;
             std::shared_ptr<northstar::utility::CLogger> m_pLogger;
             std::shared_ptr<northstar::driver::COptics> m_pOptics;
             std::unique_ptr<northstar::driver::CHMD> m_pHMD;

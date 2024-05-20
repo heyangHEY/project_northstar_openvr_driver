@@ -9,8 +9,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
     m_pVRProperties = std::make_shared<northstar::openvr::CVRProperties>(vr::VRProperties());
     m_pMatrixFactory = std::make_shared<northstar::math::CMatrixFactory>();
     m_pVectorFactory = std::make_shared<northstar::math::CVectorFactory>();
-    m_pSpaceAdapter = std::make_shared<northstar::math::CSpaceAdapter>(m_pVectorFactory);
-    m_pGeometry = std::make_shared <northstar::math::CGeometry>(m_pVectorFactory);
     m_pWorldAdapter = std::make_shared<northstar::math::CWorldAdapter>(
         m_pMatrixFactory,
         m_pVectorFactory);
@@ -18,9 +16,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
     m_pOptics = std::make_shared<northstar::driver::COptics>(
         vr::VRSettings(),
         m_pWorldAdapter,
-        m_pSpaceAdapter,
-        m_pGeometry,
-        m_pMatrixFactory,
         m_pVectorFactory,
         m_pLogger);
 
@@ -49,8 +44,6 @@ void northstar::driver::CServer::Cleanup() {
     m_pVRProperties = nullptr;
     m_pMatrixFactory = nullptr;
     m_pVectorFactory = nullptr;
-    m_pSpaceAdapter = nullptr;
-    m_pGeometry = nullptr;
     m_pWorldAdapter = nullptr;
     m_pOptics = nullptr;
     m_pHMD = nullptr;
