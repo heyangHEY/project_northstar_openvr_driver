@@ -7,10 +7,8 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
     LoadConfiguration();
     m_pLogger = std::make_shared<northstar::utility::CLogger>(vr::VRDriverLog());
     m_pVRProperties = std::make_shared<northstar::openvr::CVRProperties>(vr::VRProperties());
-    m_pHostProber = std::make_shared<northstar::utility::CHostProber>();
     m_pMatrixFactory = std::make_shared<northstar::math::CMatrixFactory>();
     m_pVectorFactory = std::make_shared<northstar::math::CVectorFactory>();
-    m_pTimeProvider = std::make_shared<northstar::utility::CTimeProvider>();
     m_pSpaceAdapter = std::make_shared<northstar::math::CSpaceAdapter>(m_pVectorFactory);
     m_pGeometry = std::make_shared <northstar::math::CGeometry>(m_pVectorFactory);
     m_pWorldAdapter = std::make_shared<northstar::math::CWorldAdapter>(
@@ -29,7 +27,6 @@ vr::EVRInitError northstar::driver::CServer::Init(vr::IVRDriverContext* pDriverC
     m_pHMD = std::make_unique<northstar::driver::CHMD>(
         vr::VRSettings(),
         vr::VRServerDriverHost(),
-        m_pHostProber,
         m_pVRProperties,
         m_pVectorFactory,
         m_pOptics,
@@ -50,10 +47,8 @@ void northstar::driver::CServer::LoadConfiguration() {
 void northstar::driver::CServer::Cleanup() {
     m_pLogger = nullptr;
     m_pVRProperties = nullptr;
-    m_pHostProber = nullptr;
     m_pMatrixFactory = nullptr;
     m_pVectorFactory = nullptr;
-    m_pTimeProvider = nullptr;
     m_pSpaceAdapter = nullptr;
     m_pGeometry = nullptr;
     m_pWorldAdapter = nullptr;

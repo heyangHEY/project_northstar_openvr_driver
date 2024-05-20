@@ -12,8 +12,6 @@
 #include "math/VectorFactory.hpp"
 #include "math/Geometry.hpp"
 #include "math/SpaceAdapter.hpp"
-#include "utility/TimeProvider.hpp"
-#include "utility/HostProber.hpp"
 
 namespace northstar {
     namespace driver {
@@ -45,8 +43,6 @@ namespace northstar {
             std::shared_ptr<northstar::math::CSpaceAdapter> m_pSpaceAdapter;
             std::shared_ptr<northstar::math::CGeometry> m_pGeometry;
             std::shared_ptr<northstar::utility::CLogger> m_pLogger;
-            std::shared_ptr<northstar::utility::CTimeProvider> m_pTimeProvider;
-            std::shared_ptr<northstar::utility::CHostProber> m_pHostProber;
             std::shared_ptr<northstar::driver::COptics> m_pOptics;
             std::unique_ptr<northstar::driver::CHMD> m_pHMD;
             std::shared_ptr<northstar::openvr::CVRProperties> m_pVRProperties;

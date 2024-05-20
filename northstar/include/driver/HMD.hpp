@@ -6,7 +6,6 @@
 #include "driver/Settings.hpp"
 #include "openvr/IVRProperties.hpp"
 #include "utility/Logger.hpp"
-#include "utility/IHostProber.hpp"
 #include "math/IVectorFactory.hpp"
 #include "math/Types.hpp"
 
@@ -18,7 +17,6 @@ namespace northstar {
         public:
             CHMD(vr::IVRSettings* pVRSettings,
                 vr::IVRServerDriverHost* pVRServerDriverHost,
-                std::shared_ptr<northstar::utility::IHostProber> pHostProber,
                 std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
                 std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
                 std::shared_ptr<northstar::driver::IOptics> pOptics,
@@ -86,7 +84,6 @@ namespace northstar {
 
             std::shared_ptr<northstar::math::IVectorFactory> m_pVectorFactory;
             std::shared_ptr<northstar::driver::IOptics> m_pOptics;
-            std::shared_ptr<northstar::utility::IHostProber> m_pHostProber;
             std::shared_ptr<northstar::utility::ILogger> m_pLogger;
             std::shared_ptr<northstar::openvr::IVRProperties> m_pVRProperties;
             vr::IVRSettings* m_pVRSettings;

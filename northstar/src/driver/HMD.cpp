@@ -7,14 +7,12 @@ using namespace northstar::driver::settings::values;
 northstar::driver::CHMD::CHMD(
     vr::IVRSettings* pVRSettings, 
     vr::IVRServerDriverHost* pVRServerDriverHost,
-    std::shared_ptr<northstar::utility::IHostProber> pHostProber,
     std::shared_ptr<northstar::openvr::IVRProperties> pVRProperties,
     std::shared_ptr<northstar::math::IVectorFactory> pVectorFactory,
     std::shared_ptr<northstar::driver::IOptics> pOptics,
     std::shared_ptr<northstar::utility::ILogger> pLogger) {
     m_pVRSettings = pVRSettings;
     m_pVRServerDriverHost = pVRServerDriverHost;
-    m_pHostProber = pHostProber;
     m_pVRProperties = pVRProperties;
     m_pLogger = pLogger;
     m_pVectorFactory = pVectorFactory;
@@ -52,12 +50,6 @@ void northstar::driver::CHMD::LoadConfiguration() {
         m_sConfiguration.sDisplayConfiguration.v2iEyeRenderAreaDimensions <<
             m_pVRSettings->GetInt32(display::k_svRoot.data(), display::k_svRenderWidth.data()),
             m_pVRSettings->GetInt32(display::k_svRoot.data(), display::k_svRenderHeight.data());
-
-        if (m_sConfiguration.sDisplayConfiguration.v2iWindowOrigin.x() < 0) {
-            m_sConfiguration.sDisplayConfiguration.v2iWindowOrigin.x() = 0;
-            m_sConfiguration.sDisplayConfiguration.v2iWindowOrigin.x() = m_pHostProber->ProbeDisplayOriginX()
-                .value_or(x_iFallbackWindowOriginX);
-        }
     }
 
     m_sConfiguration.mEyeToHeadLeft = LoadEyeToHeadTransformFromSettings(vr::Eye_Left); // hey
