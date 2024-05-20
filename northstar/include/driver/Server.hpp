@@ -3,7 +3,6 @@
 #include <openvr_driver.h>
 
 #include "driver/HMD.hpp"
-#include "driver/Types.hpp"
 #include "driver/Settings.hpp"
 #include "openvr/VRProperties.hpp"
 #include "math/WorldAdapter.hpp"
@@ -12,6 +11,11 @@
 
 namespace northstar {
     namespace driver {
+        enum class EHand {
+                Left,
+                Right
+            };
+            
         class CServer: public vr::IServerTrackedDeviceProvider
         {
         public:
@@ -25,7 +29,7 @@ namespace northstar {
             virtual void LeaveStandby() override final;
 
         private:
-            static constexpr std::array<northstar::driver::types::EHand, 2> x_aeHands = { northstar::driver::types::EHand::Left, northstar::driver::types::EHand::Right };
+            static constexpr std::array<EHand, 2> x_aeHands = { EHand::Left, EHand::Right };
             struct SServerConfiguration{
                 northstar::math::types::Vector3d v3dPosition;
                 northstar::math::types::Quaterniond qdOrientation;

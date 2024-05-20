@@ -64,14 +64,6 @@ install(FILES
   DESTINATION northstar/resources/settings
   COMPONENT driver)
 
-install(FILES
-  ${CMAKE_SOURCE_DIR}/CREDITS.md
-  ${CMAKE_SOURCE_DIR}/README.md
-  ${CMAKE_SOURCE_DIR}/TODO.md
-  ${CMAKE_SOURCE_DIR}/LICENSE
-  DESTINATION .
-  COMPONENT driver)
-
 include(InstallRequiredSystemLibraries)
 install(PROGRAMS ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS}
   DESTINATION northstar/bin/win64
